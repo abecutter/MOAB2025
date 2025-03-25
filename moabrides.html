@@ -88,7 +88,6 @@
         <td>10.4 mi</td>
         <td>Loop, intermediate friendly, scenic but busy</td>
         <td><a href="https://www.mtbproject.com/trail/7007957/navajo-rocks-loop" target="_blank">Link</a></td>
-      </tr>
     </tbody>
   </table>
 
@@ -117,11 +116,12 @@
       { name: 'Navajo Rocks Trailhead (optional)', coords: [38.6053, -109.6104] },
     ];
 
-    L.marker([38.497356, -109.447840]).addTo(map).bindPopup('Home');
+    L.marker([38.497356, -109.447840]).addTo(map).bindPopup('<strong>HOME</strong>');
 
     trails.forEach(trail => {
-      L.marker(trail.coords).addTo(map).bindPopup(trail.name);
-    });
+  const marker = L.marker(trail.coords).addTo(map);
+  marker.bindPopup(`<strong>${trail.name}</strong>`).openPopup();
+});
   </script>
 <script>
     function loadSection(id, file) {
