@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moab Hikes Project</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    th, td { padding: 8px; border-bottom: 1px solid #ccc; text-align: left; }
+    #map { width: 100%; height: 600px; margin: 2em 0; }
+    @media (max-width: 768px) { #map { height: 400px; } }
+    @media (max-width: 480px) { #map { height: 300px; } }
+  </style>
+</head>
+<body>
+<h1>Moab Hikes Project</h1>
+<p>This project identifies a curated list of hiking trails around Moab, Utah, based on proximity, scenic value, and logistical viability for a multi-day outdoor experience.</p>
+<h2>Criteria Used</h2>
+<ul>
+  <li>Within 30 miles of Moab</li>
+  <li>Under 8 miles round-trip</li>
+  <li>Offers unique features: arches, water, solitude, or petroglyphs</li>
+  <li>Hikeable in March weather conditions</li>
+</ul>
+<h2>Included Hikes</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Name</th>
+      <th>Distance from Moab</th>
+      <th>Length</th>
+      <th>Best Time of Day</th>
+      <th>Why Best Time</th>
+      <th>Features</th>
+      <th>AllTrails Link</th>
+      <th>Distance from Homebase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fisher Towers</td>
+      <td>23 mi</td>
+      <td>4.4 mi</td>
+      <td>Morning</td>
+      <td>Great lighting on the red spires</td>
+      <td>Spires, canyon views</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/fisher-towers-trail" target="_blank">View on AllTrails</a></td>
+      <td>17.4 mi</td>
+    </tr>
+    <tr>
+      <td>Grandstaff Canyon</td>
+      <td>3 mi</td>
+      <td>4.5 mi</td>
+      <td>Morning</td>
+      <td>Cooler temps, less traffic</td>
+      <td>Stream crossings, Morning Glory Arch</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/negro-bill-canyon-trail" target="_blank">View on AllTrails</a></td>
+      <td>7.2 mi</td>
+    </tr>
+    <tr>
+      <td>Devils Garden (Primitive Loop)</td>
+      <td>26 mi</td>
+      <td>7.8 mi</td>
+      <td>Early Morning</td>
+      <td>Long hike, shade early</td>
+      <td>Multiple arches, primitive terrain</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/devils-garden-primitive-loop" target="_blank">View on AllTrails</a></td>
+      <td>21.3 mi</td>
+    </tr>
+    <tr>
+      <td>Hidden Valley + Moab Rim Overlook</td>
+      <td>3 mi</td>
+      <td>6.2 mi</td>
+      <td>Morning</td>
+      <td>Shade in canyon early</td>
+      <td>Petroglyphs, views</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/hidden-valley-trail" target="_blank">View on AllTrails</a></td>
+      <td>4.9 mi</td>
+    </tr>
+    <tr>
+      <td>Hunter Canyon</td>
+      <td>8 mi</td>
+      <td>3.4 mi</td>
+      <td>Afternoon</td>
+      <td>Shade builds in canyon</td>
+      <td>Water, canyon walls</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/hunter-canyon" target="_blank">View on AllTrails</a></td>
+      <td>7.4 mi</td>
+    </tr>
+    <tr>
+      <td>Jeep Arch</td>
+      <td>17 mi</td>
+      <td>4.0 mi</td>
+      <td>Morning</td>
+      <td>Cooler temps, better light on arch</td>
+      <td>Arch, solitude</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/jeep-arch-trail" target="_blank">View on AllTrails</a></td>
+      <td>12.8 mi</td>
+    </tr>
+    <tr>
+      <td>Corona Arch</td>
+      <td>13 mi</td>
+      <td>3.0 mi</td>
+      <td>Late Afternoon</td>
+      <td>Sun on the arch</td>
+      <td>Massive arch, scenic</td>
+      <td><a href="https://www.alltrails.com/trail/us/utah/corona-and-bowtie-arch-trail" target="_blank">View on AllTrails</a></td>
+      <td>10.8 mi</td>
+    </tr>
+  </tbody>
+</table><h2>Trailhead Map</h2>
+<div id="map"></div>
+
+<h2>Excluded Hikes</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Name</th>
+      <th>Distance from Moab</th>
+      <th>Length</th>
+      <th>Best Time of Day</th>
+      <th>Why Best Time</th>
+      <th>Features</th>
+      <th>AllTrails Link</th>
+      <th>Why Excluded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Delicate Arch</td>
+      <td>18 mi</td>
+      <td>3.2 mi</td>
+      <td>Evening</td>
+      <td>Sunset glow</td>
+      <td>Iconic arch</td>
+      <td>https://www.alltrails.com/trail/us/utah/delicate-arch-trail</td>
+      <td>Overcrowded during visit window</td>
+    </tr>
+    <tr>
+      <td>Negro Bill Canyon</td>
+      <td>4 mi</td>
+      <td>4.3 mi</td>
+      <td>Morning</td>
+      <td>Cool temps, stream access</td>
+      <td>Stream, natural bridge</td>
+      <td>https://www.alltrails.com/trail/us/utah/negro-bill-canyon-trail</td>
+      <td>Trail temporarily closed due to flooding</td>
+    </tr>
+    <tr>
+      <td>Mill Creek North Fork</td>
+      <td>1 mi</td>
+      <td>2.0 mi</td>
+      <td>Afternoon</td>
+      <td>Shade in pools</td>
+      <td>Waterfalls, swimming holes</td>
+      <td>https://www.alltrails.com/trail/us/utah/mill-creek-north-fork</td>
+      <td>Access and parking limitations</td>
+    </tr>
+  </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+<script>
+  var map = L.map('map');
+
+  var bounds = L.latLngBounds(
+    L.latLng(38.497356, -109.6302),
+    L.latLng(38.7837, -109.304)
+  );
+  map.fitBounds(bounds);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  var homeIcon = L.AwesomeMarkers.icon({
+    icon: 'home',
+    prefix: 'fa',
+    markerColor: 'red'
+  });
+  L.marker([38.497356, -109.44784], {icon: homeIcon})
+    .addTo(map)
+    .bindPopup("HOMEBASE")
+    .bindTooltip("HOMEBASE", {permanent: true, direction: "right"});
+  L.marker([38.7224, -109.304])
+    .addTo(map)
+    .bindPopup("Fisher Towers")
+    .bindTooltip("Fisher Towers", {permanent: true, direction: "right"});
+
+  L.marker([38.5922, -109.5043])
+    .addTo(map)
+    .bindPopup("Grandstaff Canyon")
+    .bindTooltip("Grandstaff Canyon", {permanent: true, direction: "right"});
+
+  L.marker([38.7837, -109.5945])
+    .addTo(map)
+    .bindPopup("Devils Garden (Primitive Loop)")
+    .bindTooltip("Devils Garden (Primitive Loop)", {permanent: true, direction: "right"});
+
+  L.marker([38.5385, -109.521])
+    .addTo(map)
+    .bindPopup("Hidden Valley + Moab Rim Overlook")
+    .bindTooltip("Hidden Valley + Moab Rim Overlook", {permanent: true, direction: "right"});
+
+  L.marker([38.5069, -109.5846])
+    .addTo(map)
+    .bindPopup("Hunter Canyon")
+    .bindTooltip("Hunter Canyon", {permanent: true, direction: "right"});
+
+  L.marker([38.6154, -109.6302])
+    .addTo(map)
+    .bindPopup("Jeep Arch")
+    .bindTooltip("Jeep Arch", {permanent: true, direction: "right"});
+
+  L.marker([38.5741, -109.6226])
+    .addTo(map)
+    .bindPopup("Corona Arch")
+    .bindTooltip("Corona Arch", {permanent: true, direction: "right"});
+
+</script>
+</body>
+</html>
