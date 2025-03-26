@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moab Ride Options</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Moab Ride Options Overview</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Main Trail</th>
+        <th>Sub Trails</th>
+        <th>Miles</th>
+        <th>Time (Intermediate)</th>
+        <th>Distance from Home</th>
+        <th>Key Features</th>
+        <th>MTBProject Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Amasa Back</td>
+        <td>Hymasa, Captain Ahab</td>
+        <td>9–12</td>
+        <td>2.5–4 hrs</td>
+        <td>4.6 mi</td>
+        <td>Tech, ledges, views, famous descents</td>
+        <td><a href="https://www.mtbproject.com/directory/8013952/amasa-back" target="_blank">Link</a></td>
+      </tr>
+      <tr>
+        <td><a href="#tnwe">The Not Whole Enchilada</a></td>
+        <td>TWE, North 40, Chisholm</td>
+        <td>10–15</td>
+        <td>3–4.5 hrs</td>
+        <td>7.2 mi</td>
+        <td>Flow, slickrock, moderate climbs, quiet zone</td>
+        <td><a href="https://www.mtbproject.com/trail/4670265/the-whole-enchilada" target="_blank">Link</a></td>
+      </tr>
+      <tr>
+        <td><a href="#klondike">Klondike Area</a></td>
+        <td>Nome, Alaska, EKG, Klondike Bluff Loop</td>
+        <td>15–20+</td>
+        <td>3–5 hrs</td>
+        <td>18.1 mi</td>
+        <td>Mix of tech and flow, variety, bailouts</td>
+        <td><a href="https://www.mtbproject.com/trail/616805/klondike-bluff-outer-loop" target="_blank">Link</a></td>
+      </tr>
+ 	<tr>
+        <td><a href="#ss">Secret Stash Trails</td>
+        <td>Various</td>
+        <td>1-10</td>
+        <td>3-7 hrs</td>
+        <td>xxxx mi</td>
+        <td>trails that locals ride that are not discussed much </td>
+        <td><a href="https://www.mtbproject.com/" target="_blank">Link</a></td>
+      </tr>
+
+      <tr>
+        <td>MAG7 (optional)</td>
+        <td>Bull Run, Great Escape, Little Canyon, Gemini Bridges Rd</td>
+        <td>15–20</td>
+        <td>3.5–5 hrs</td>
+        <td>23.3 mi</td>
+        <td>Point-to-point, fast segments, shuttle recommended</td>
+        <td><a href="https://www.mtbproject.com/trail/652241/mag-7" target="_blank">Link</a></td>
+      </tr>
+      <tr>
+        <td>Navajo Rocks (optional)</td>
+        <td>Big Mesa, Rocky Tops, Ramblin’</td>
+        <td>17</td>
+        <td>3–4.5 hrs</td>
+        <td>10.4 mi</td>
+        <td>Loop, intermediate friendly, scenic but busy</td>
+        <td><a href="https://www.mtbproject.com/trail/7007957/navajo-rocks-loop" target="_blank">Link</a></td>
+    </tbody>
+  </table>
+
+  <h2>Trailhead Map</h2>
+  <div id="map"></div>
+
+  <div id="tnwe-section"></div>
+
+  <div id="klondike-section"></div>
+
+<div id="ss-section"></div>
+
+    </li>
+  </ul>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([38.497356, -109.447840], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const trails = [
+      { name: 'Amasa Back Trailhead', coords: [38.5382, -109.6036] },
+      { name: 'The Not Whole Enchilada Trailhead', coords: [38.5483, -109.4957] },
+      { name: 'Klondike Area Trailhead', coords: [38.7143, -109.6783] },
+      { name: 'MAG7 Trailhead (optional)', coords: [38.6099, -109.7323] },
+      { name: 'Navajo Rocks Trailhead (optional)', coords: [38.6053, -109.6104] },
+    ];
+
+    L.marker([38.497356, -109.447840]).addTo(map).bindPopup('<strong>HOME</strong>');
+
+    trails.forEach(trail => {
+  const marker = L.marker(trail.coords).addTo(map);
+  marker.bindPopup(`<strong>${trail.name}</strong>`).openPopup();
+});
+  </script>
+<script>
+    function loadSection(id, file) {
+      fetch(file)
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById(id).innerHTML = html;
+        });
+    }
+    loadSection('tnwe-section', 'tnwe.html');
+    loadSection('klondike-section', 'klondike.html');
+    loadSection('ss-section', 'secretstash.html');
+  </script>
+</body>
+</html>
